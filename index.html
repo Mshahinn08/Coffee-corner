@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Shaheen Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Almarai:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* تعريف المتغيرات للألوان لسهولة التعديل */
+        :root {
+            --primary-dark-color: #1A2E2C; /* أخضر داكن جداً للخلفية الأساسية */
+            --secondary-gold-color: #FFD700; /* ذهبي براق للنقاط البارزة */
+            --text-light-color: #F8F8F8; /* أبيض فاتح للنصوص الرئيسية */
+            --text-muted-color: #B0B0B0; /* رمادي فاتح للنصوص الثانوية */
+            --accent-green-color: #4CAF50; /* أخضر زاهي للعناصر النشطة */
+            --item-background-dark: #2A3E3B; /* خلفية أغمق لبلوك الأصناف */
+            --border-dark-color: #444; /* حدود داكنة */
+            --item-separator-color: #3C504E; /* لون فاصل بين الأصناف */
+        }
+
+        body {
+            font-family: 'Cairo', 'Almarai', sans-serif;
+            background-color: var(--primary-dark-color); /* خلفية داكنة */
+            color: var(--text-light-color); /* نص فاتح */
+            margin: 0;
+            padding: 0;
+            direction: rtl; /* لضمان أن يكون النص من اليمين لليسار */
+            text-align: right; /* لمحاذاة النص لليمين */
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative; /* لجعل Overlay يعمل بشكل صحيح */
+        }
+
+        /* تأثير Overlay للخلفية - يمكن تبديل قيم الباكيج لتغيير المظهر */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+c3FsZWFzZS1lZ2VzPC90aXRsZT48cGF0aCBkPSJNMCAxMi43NDVsLjAxNC4wMTIgLjAyNS4wMjEgLjAyMi4wMTguMDI5LjAyNS4wMjkuMDI1LjAzNi4wMy4wMzYuMDMgLjA0LjAzMy4wMy4wMy4wMi4wMTYuMDExLjAxMi4wMDYuMDA0LjAwNC4wMDMgLjAwNS4wMDMuMDAzLjAwMi4wMDMuMDAxLjAwMi4wMDMgLjAwMi4wMDMuMDA0LjAwNS4wMDQuMDA1LjAwNC4wMDYuMDA3LjAwNy4wMDguMDA3LjAwOS4wMTYuMDE3LjAyNC4wMjUuMDMyLjAzMy4wMzkuMDQuMDQ4LjA0OS4wNTcuMDYxLjA3LjA4LjA4Ny4xMDMuMTIyLjEyLjE0NC4xNzMuMjA1LjI0My4yNzkuMzcuNDM0LjY0NS43NTkgMS4xMDYgMS40MTEgMi40ODQgMy4yNDkgNS40NyA4LjgzNCA5Ljg3NyA9Ljg3Ny4xMi40MjQuNTgxLjgyMyAxLjAxMiAxLjIzMmwzLjI0OS0zLjI0OXMtNy42NzItOC45NjMtOS44NzdjLS40MjQtLjEyLS44MjMtLjU4MS0xLjIzMi0xLjAxMmwtMy4yNDkgMy4yNDl6TTIxLjY1OCAxMi40OTNjLjI2Ny4xNDEuNTMyLjI4Ni43OTYuNDM0bC4wMTQuMDExLjAyNC4wMjMuMDI1LjAyNS4wMTkuMDI0LjAyNS4wMjkuMDI3LjAyOS4wMzEuMDMyLjAzLjAzNi4wMy4wMzcuMDMzLjA0LjAzNC4wNC4wMy4wMzQuMDMuMDMzLjAyOS4wMzEuMDI5LjAyNy4wMjUuMDI3LjAyMi4wMjUuMTE3LjExOC4yMzguMjQyLjM2NC4zNzIuNDc2LjUxOC41OTEuNjU0LjczNi44MDMuODg0Ljk0OCAxLjAyMiAxLjEzOCAxLjI1MiAxLjQwOSAxLjcyNyAyLjAyOCAyLjMzMiAyLjkxNSAzLjMzNSA0LjY2NiA2LjExNyA2Ljk0MiAxNi44MzcgMTguMjk5IDExLjI1NiAxMS4yNTYuMTQxLjI2Ny4yODYuNTMyLjQzNC43OTZsLjAxMS4wMTQuMDIzLjAyNC4wMjUuMDI1LjAyNC4wMTkuMDI5LjAyNS4wMjkuMjc3LjAzMS4wMzEuMDMyLjAzLjAzLjAzLjAzMy4wMzYuMDMyLjAzMy4wMzEuMDI5LjAyNy4wMjUuMDI3LjAyMy4wMjEuMTE4LjExOC4yNDIuMjM4LjM3Mi4zNjQuNTU3LjUyLjcyLjY5MS44ODQuODgzIDEuMDIyIDEuMTM4IDEuMjUyIDEuNDQxIDEuNzY0IDIuMjk5IDIuNzA0IDMuNjY1IDUuNDcxIDYuMzc5IDYuOTQyIDE2LjgzNyAxMS4yNTYgMTguMjk5IDExLjI1Ni4yNjcuMTQxLjUzMi4yODYuNzk2LjQzNGw2LjA3OC02LjA3OC0xMS4yNTYtMTguMjk5em0tMTcuNzA1IDE1LjY5Yy0uMzk4LjM1Ny0xLjE4OC4xNDcTMS44NDctLjUzMi0xLjU1Ni0xLjYzNS0yLjQwNC0zLjc4OC0yLjQxNC02LjAzOC0uMDEtMi4yMjUuOTM4LTQuMzUyIDIuNDU4LTUuOTM1IDEuNTIxLTEuNTY1IDMuNDg4LTIuNDI9IDUuNjIxLTIuNDM5IDIuMjI1LS4wMS00LjI5IDEuNDMyLTYuMTQ4IDMuMjk2eiIgdHJhbnNmb3JtPSJyb3RhdGUoLTQ1IDExLjk5OSAxMS45OTkpIiBmaWxsPSIjNzEzYzYzIiBmaWxsLW9wYWNpdHk9IjAuMDgiLz48L3N2Zz4=');
+            background-repeat: repeat;
+            opacity: 0.2; /* قوة التأثير */
+            z-index: -1; /* لجعلها تحت المحتوى */
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: rgba(26, 46, 44, 0.9); /* خلفية داكنة شبه شفافة للكونتينر */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* ظل أغمق وأكثر وضوحًا */
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-dark-color); /* إطار خفيف */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-dark-color);
+        }
+
+        header img {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.6)); /* ظل أكبر للشعار */
+            border-radius: 50%; /* جعل الصورة دائرية */
+            border: 5px solid var(--secondary-gold-color); /* إطار أصفر */
+        }
+
+        header h1 {
+            color: var(--secondary-gold-color); /* ذهبي للشعار الرئيسي */
+            font-family: 'Playfair Display', serif; /* خط إنجليزي فاخر */
+            font-size: 4.2em; /* حجم أكبر */
+            margin: 0;
+            letter-spacing: 3px; /* تباعد أحرف أكبر */
+            text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.6); /* ظل نص أغمق */
+            text-transform: uppercase; /* تحويل لحروف كبيرة */
+        }
+
+        /* تم إلغاء header p */
+
+        /* --- Category Tabs --- */
+        .categories-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            gap: 15px;
+        }
+
+        .category-tab {
+            background-color: var(--item-background-dark); /* خلفية داكنة للأزرار */
+            color: var(--secondary-gold-color); /* نص ذهبي */
+            padding: 14px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.15em;
+            font-weight: bold;
+            border: 2px solid var(--secondary-gold-color); /* إطار ذهبي */
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-tab:hover {
+            background-color: var(--secondary-gold-color); /* خلفية ذهبية عند التمرير */
+            color: var(--primary-dark-color); /* نص داكن */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+            transform: translateY(-3px);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(to left, var(--secondary-gold-color), var(--accent-green-color)); /* تدرج لوني للخلفية */
+            color: var(--primary-dark-color); /* نص داكن */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+            border-color: var(--secondary-gold-color);
+            position: relative;
+            z-index: 1;
+        }
+        .category-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--secondary-gold-color);
+        }
+
+        /* --- Menu Sections --- */
+        .menu-section {
+            display: none;
+            padding-top: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .menu-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-section h2 {
+            color: var(--secondary-gold-color); /* ذهبي للعناوين الفرعية */
+            font-family: 'Almarai', sans-serif;
+            font-size: 2.8em;
+            border-bottom: 4px solid var(--accent-green-color); /* خط أخضر للعناوين */
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-section h2::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            width: 50%;
+            height: 2px;
+            background-color: rgba(255, 215, 0, 0.4);
+        }
+
+        /* NEW STYLES FOR MENU ITEMS (Unified Block) */
+        .menu-items-block {
+            background-color: var(--item-background-dark); /* خلفية داكنة للبلوك الواحد */
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* ظل أعمق للبلوك */
+            padding: 25px;
+            border: 1px solid var(--border-dark-color);
+            margin-bottom: 30px; /* مسافة تحت البلوك */
+        }
+
+        .menu-item-row {
+            display: flex;
+            align-items: flex-start; /* محاذاة العناصر للأعلى */
+            padding: 18px 0; /* padding رأسي بين الأصناف */
+            border-bottom: 1px dashed var(--item-separator-color); /* فاصل منقط بين الأصناف */
+        }
+
+        .menu-item-row:last-child {
+            border-bottom: none; /* إزالة الفاصل لآخر صنف */
+        }
+
+        /* تبديل أماكن العربي والإنجليزي */
+        .item-arabic {
+            flex: 2;
+            text-align: right;
+            padding-right: 15px; /* مسافة قبل السعر */
+        }
+
+        .item-english {
+            flex: 2;
+            text-align: left;
+            padding-left: 15px; /* مسافة بعد السعر */
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .item-arabic h3, .item-english h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.6em; /* حجم مناسب */
+            color: var(--text-light-color);
+            line-height: 1.3;
+        }
+
+        .item-arabic p, .item-english p {
+            margin: 0;
+            font-size: 0.95em;
+            color: var(--text-muted-color);
+            line-height: 1.4;
+            max-height: 45px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .item-price {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            color: var(--secondary-gold-color);
+            font-size: 2.3em; /* سعر كبير وواضح */
+            font-family: 'Almarai', sans-serif;
+            min-width: 90px;
+            direction: ltr; /* Ensure numbers are LTR */
+            border-right: 2px solid var(--item-separator-color); /* فاصل صلب بين الاسم العربي والسعر */
+            border-left: 2px solid var(--item-separator-color); /* فاصل صلب بين السعر والاسم الانجليزي */
+            padding: 0 10px;
+        }
+
+        /* رسالة "قريباً" */
+        .coming-soon-message {
+            text-align: center;
+            padding: 50px 20px;
+            font-size: 1.8em;
+            color: var(--text-muted-color);
+            background-color: var(--item-background-dark);
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-dark-color);
+        }
+        .coming-soon-message i {
+            color: var(--secondary-gold-color);
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 25px;
+            border-top: 2px solid var(--border-dark-color);
+            color: var(--text-muted-color);
+            font-size: 1.05em;
+        }
+
+        /* تحسينات للتصميم المتجاوب (Responsive Design) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            header h1 {
+                font-size: 3.5em;
+                letter-spacing: 2px;
+            }
+            header img {
+                max-width: 180px;
+            }
+            .categories-nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 15px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .category-tab {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .menu-section h2 {
+                font-size: 2.2em;
+            }
+
+            /* Responsive for menu item rows in unified block */
+            .menu-item-row {
+                flex-direction: column; /* Stack columns on small screens */
+                align-items: stretch; /* Stretch content */
+                padding: 15px 0; /* padding رأسي */
+                border-bottom: 1px dashed var(--item-separator-color); /* فاصل */
+            }
+            .menu-item-row:last-child {
+                border-bottom: none;
+            }
+
+            .item-arabic, .item-english {
+                flex: none;
+                width: 100%;
+                padding: 0;
+                text-align: center;
+                border-left: none; /* إزالة الخطوط العمودية */
+                border-right: none;
+            }
+            .item-arabic {
+                margin-bottom: 8px; /* مسافة بين العربي والإنجليزي عند التكدس */
+            }
+            .item-arabic h3, .item-english h3 {
+                font-size: 1.4em;
+            }
+            .item-arabic p, .item-english p {
+                font-size: 0.85em;
+                min-height: auto;
+                -webkit-line-clamp: unset;
+                margin-top: 5px;
+            }
+            .item-price {
+                flex: none;
+                width: 100%;
+                margin-top: 15px;
+                font-size: 1.8em;
+                border: none;
+                border-top: 1px solid var(--item-separator-color); /* فاصل علوي للسعر */
+                padding-top: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                margin: 10px auto;
+            }
+            header h1 {
+                font-size: 2.8em;
+                letter-spacing: 1px;
+            }
+            header img {
+                max-width: 150px;
+            }
+            .category-tab {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .menu-section h2 {
+                font-size: 1.8em;
+            }
+            .menu-items-block {
+                padding: 15px;
+            }
+            .menu-item-row {
+                padding: 12px 0;
+                flex-direction: row; /* ترتيب العناصر أفقيًا */
+                align-items: center; /* محاذاة العناصر في المنتصف */
+            }
+            .item-arabic {
+                flex: 2;
+                text-align: right;
+                padding-right: 10px;
+            }
+            .item-english {
+                flex: 2;
+                text-align: left;
+                padding-left: 10px;
+            }
+            .item-price {
+                flex: 1;
+                text-align: center;
+                font-size: 1.6em;
+                border: none;
+                padding: 0;
+            }
+            .item-arabic h3, .item-english h3 {
+                font-size: 1.2em;
+            }
+            .item-arabic p, .item-english p {
+                font-size: 0.8em;
+            }
+            .item-price {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="LOGO.jpg" alt="شعار جراند شاهين">
+            <h1>Grand Shaheen Menu</h1>
+            </header>
+
+        <section class="categories-nav">
+            <div class="category-tab" data-category="hot-drinks">المشروبات الساخنة</div>
+            <div class="category-tab" data-category="cold-drinks">المشروبات الباردة</div>
+            <div class="category-tab" data-category="dishes">الأطباق</div>
+            <div class="category-tab" data-category="breakfast">الفطار</div>
+        </section>
+
+        <section id="hot-drinks" class="menu-section">
+            <h2>المشروبات الساخنة</h2>
+            <div class="menu-items-block">
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>شاي (فتلة - عادي)</h3>
+                        <p>شاي فاخر بفتلة أو شاي عادي حسب اختيارك.</p>
+                    </div>
+                    <div class="item-price">15 ج.م</div>
+                    <div class="item-english">
+                        <h3>Tea (bag - regular)</h3>
+                        <p>Fine tea, bagged or regular, as you prefer.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>شاي بالنعناع</h3>
+                        <p>شاي منعش مع أوراق النعناع الطازجة.</p>
+                    </div>
+                    <div class="item-price">20 ج.م</div>
+                    <div class="item-english">
+                        <h3>Mint Tea</h3>
+                        <p>Refreshing tea with fresh mint leaves.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>شاي بحليب</h3>
+                        <p>مزيج كلاسيكي من الشاي والحليب الدافئ.</p>
+                    </div>
+                    <div class="item-price">20 ج.م</div>
+                    <div class="item-english">
+                        <h3>Tea with Milk</h3>
+                        <p>A classic blend of warm tea and milk.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>الينسون</h3>
+                        <p>مشروب دافئ ومهدئ من الينسون الطبيعي.</p>
+                    </div>
+                    <div class="item-price">15 ج.م</div>
+                    <div class="item-english">
+                        <h3>Anise</h3>
+                        <p>A warm and soothing drink made from natural anise.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>نعناع</h3>
+                        <p>مشروب النعناع الطازج المهدئ للأعصاب.</p>
+                    </div>
+                    <div class="item-price">15 ج.م</div>
+                    <div class="item-english">
+                        <h3>Mint</h3>
+                        <p>A calming drink made from fresh mint leaves.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>نسكافيه بلاك سادة</h3>
+                        <p>قهوة سريعة التحضير نقية وبمذاق قوي.</p>
+                    </div>
+                    <div class="item-price">20 ج.م</div>
+                    <div class="item-english">
+                        <h3>Nescafe Black Plain</h3>
+                        <p>Pure instant coffee with a strong taste.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>نسكافيه بلاك بحليب</h3>
+                        <p>نسكافيه بلاك مع إضافة الحليب الطازج.</p>
+                    </div>
+                    <div class="item-price">30 ج.م</div>
+                    <div class="item-english">
+                        <h3>Nescafe Black with Milk</h3>
+                        <p>Nescafe Black with fresh milk added.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>نسكافيه انواع (كراميل - شيكولاته - بندق - كلاسيك - ريتش)</h3>
+                        <p>اختر من نكهات النسكافيه المميزة.</p>
+                    </div>
+                    <div class="item-price">25 ج.م</div>
+                    <div class="item-english">
+                        <h3>Nescafe Flavors (Caramel, Chocolate, Hazelnut, Classic, Rich)</h3>
+                        <p>Choose from our distinctive Nescafe flavors.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>نسكافيه انواع (كراميل - شيكولاته - بندق - كلاسيك - ريتش) + حليب</h3>
+                        <p>نكهتك المفضلة من النسكافيه مع الحليب.</p>
+                    </div>
+                    <div class="item-price">30 ج.م</div>
+                    <div class="item-english">
+                        <h3>Nescafe Flavors (Caramel, Chocolate, Hazelnut, Classic, Rich) + Milk</h3>
+                        <p>Your favorite Nescafe flavor with milk.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>هوت شوكليت</h3>
+                        <p>مشروب شوكولاتة ساخن غني وكريمي.</p>
+                    </div>
+                    <div class="item-price">30 ج.م</div>
+                    <div class="item-english">
+                        <h3>Hot Chocolate</h3>
+                        <p>A rich and creamy hot chocolate drink.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>هوت سيدر</h3>
+                        <p>مشروب التفاح الساخن الدافئ بالبهارات.</p>
+                    </div>
+                    <div class="item-price">25 ج.م</div>
+                    <div class="item-english">
+                        <h3>Hot Cider</h3>
+                        <p>Warm apple cider with spices.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>قهوة تركي</h3>
+                        <p>قهوة تركية أصيلة محضرة بعناية.</p>
+                    </div>
+                    <div class="item-price">25 ج.م</div>
+                    <div class="item-english">
+                        <h3>Turkish Coffee</h3>
+                        <p>Authentic Turkish coffee prepared with care.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>قهوة فرنساوي</h3>
+                        <p>قهوة فرنسية غنية بمذاق مميز.</p>
+                    </div>
+                    <div class="item-price">30 ج.م</div>
+                    <div class="item-english">
+                        <h3>French Coffee</h3>
+                        <p>Rich French coffee with a distinctive taste.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cold-drinks" class="menu-section">
+            <h2>المشروبات الباردة</h2>
+            <div class="menu-items-block">
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>عصير مانجو فريش</h3>
+                        <p>مانجو طازجة معصورة يومياً.</p>
+                    </div>
+                    <div class="item-price">40 ج.م</div>
+                    <div class="item-english">
+                        <h3>Fresh Mango Juice</h3>
+                        <p>Fresh mango, squeezed daily.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>عصير فراولة فريش</h3>
+                        <p>فراولة طبيعية طازجة ومنعشة.</p>
+                    </div>
+                    <div class="item-price">40 ج.م</div>
+                    <div class="item-english">
+                        <h3>Fresh Strawberry Juice</h3>
+                        <p>Natural fresh and refreshing strawberry.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>عصير برتقال فريش</h3>
+                        <p>برتقال طازج معصور مباشرة.</p>
+                    </div>
+                    <div class="item-price">40 ج.م</div>
+                    <div class="item-english">
+                        <h3>Fresh Orange Juice</h3>
+                        <p>Freshly squeezed orange juice.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>عصير ليمون فريش</h3>
+                        <p>عصير ليمون منعش ومثالي للصيف.</p>
+                    </div>
+                    <div class="item-price">35 ج.م</div>
+                    <div class="item-english">
+                        <h3>Fresh Lemon Juice</h3>
+                        <p>Refreshing lemon juice, perfect for summer.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>عصير ليمون نعناع فريش</h3>
+                        <p>مزيج منعش من الليمون والنعناع الطازج.</p>
+                    </div>
+                    <div class="item-price">35 ج.م</div>
+                    <div class="item-english">
+                        <h3>Fresh Lemon Mint Juice</h3>
+                        <p>A refreshing mix of lemon and fresh mint.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>مشروب الطاقة (موز + سوداني + شوفان + عسل نحل)</h3>
+                        <p>مشروب طبيعي وغني بالطاقة لبداية يوم نشيط.</p>
+                    </div>
+                    <div class="item-price">45 ج.م</div>
+                    <div class="item-english">
+                        <h3>Energy Drink (Banana + Peanuts + Oats + Honey)</h3>
+                        <p>A natural and energy-rich drink for an active start to your day.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>شاي بارد</h3>
+                        <p>شاي مثلج ومنعش لمزيد من الانتعاش.</p>
+                    </div>
+                    <div class="item-price">25 ج.م</div>
+                    <div class="item-english">
+                        <h3>Cold Tea</h3>
+                        <p>Iced and refreshing tea for extra coolness.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>قهوة باردة (ايس كوفي)</h3>
+                        <p>قهوة مثلجة بمذاق رائع.</p>
+                    </div>
+                    <div class="item-price">35 ج.م</div>
+                    <div class="item-english">
+                        <h3>Cold Coffee (Iced Coffee)</h3>
+                        <p>Iced coffee with a great taste.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>موهيتو كلاسيك</h3>
+                        <p>مزيج الليمون والنعناع المنعش مع الصودا.</p>
+                    </div>
+                    <div class="item-price">50 ج.م</div>
+                    <div class="item-english">
+                        <h3>Classic Mojito</h3>
+                        <p>A refreshing mix of lemon and mint with soda.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>موهيتو تفاح</h3>
+                        <p>نكهة التفاح المنعشة مع الموهيتو الكلاسيكي.</p>
+                    </div>
+                    <div class="item-price">55 ج.م</div>
+                    <div class="item-english">
+                        <h3>Apple Mojito</h3>
+                        <p>Refreshing apple flavor with a classic mojito twist.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>موهيتو مانجو</h3>
+                        <p>موهيتو بطعم المانجو الصيفي اللذيذ.</p>
+                    </div>
+                    <div class="item-price">55 ج.م</div>
+                    <div class="item-english">
+                        <h3>Mango Mojito</h3>
+                        <p>Mojito with a delicious summer mango taste.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>موهيتو كيوي</h3>
+                        <p>طعم الكيوي الفريد في مشروب الموهيتو.</p>
+                    </div>
+                    <div class="item-price">55 ج.م</div>
+                    <div class="item-english">
+                        <h3>Kiwi Mojito</h3>
+                        <p>The unique taste of kiwi in a mojito drink.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>موهيتو أناناس</h3>
+                        <p>موهيتو بطعم الأناناس الاستوائي.</p>
+                    </div>
+                    <div class="item-price">55 ج.م</div>
+                    <div class="item-english">
+                        <h3>Pineapple Mojito</h3>
+                        <p>Mojito with a tropical pineapple taste.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>موهيتو برتقال</h3>
+                        <p>نكهة البرتقال الغنية مع لمسة الموهيتو.</p>
+                    </div>
+                    <div class="item-price">55 ج.م</div>
+                    <div class="item-english">
+                        <h3>Orange Mojito</h3>
+                        <p>Rich orange flavor with a mojito twist.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>سموزي فراولة</h3>
+                        <p>مشروب فراولة منعش ومغذي.</p>
+                    </div>
+                    <div class="item-price">50 ج.م</div>
+                    <div class="item-english">
+                        <h3>Strawberry Smoothie</h3>
+                        <p>A refreshing and nutritious strawberry drink.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>سموزي مانجو</h3>
+                        <p>مشروب مانجو منعش ومغذي.</p>
+                    </div>
+                    <div class="item-price">50 ج.م</div>
+                    <div class="item-english">
+                        <h3>Mango Smoothie</h3>
+                        <p>A refreshing and nutritious mango drink.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>سموزي برتقال</h3>
+                        <p>مشروب برتقال منعش ومغذي.</p>
+                    </div>
+                    <div class="item-price">50 ج.م</div>
+                    <div class="item-english">
+                        <h3>Orange Smoothie</h3>
+                        <p>A refreshing and nutritious orange drink.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dishes" class="menu-section">
+            <h2>الأطباق</h2>
+            <div class="menu-items-block">
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>طبق الجرانداوي</h3>
+                        <p>مكس ايس كريم (فراولة - موز)، جرانولا - شوفان + فراولة قطع + موز قطع ) + عسل.</p>
+                    </div>
+                    <div class="item-price">65 ج.م</div>
+                    <div class="item-english">
+                        <h3>Grande Dish</h3>
+                        <p>Ice cream mix (strawberry - banana), granola - oats + strawberry pieces + banana pieces + honey.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>طبق الدحيحة</h3>
+                        <p>مكس ايس كريم (مانجا - كيوي)، جرانولا، شوفان + مانجو قطع + كيوي قطع ) + عسل.</p>
+                    </div>
+                    <div class="item-price">65 ج.م</div>
+                    <div class="item-english">
+                        <h3>Dahiha Platter</h3>
+                        <p>Ice cream mix (mango - kiwi), granola, oats + mango pieces + kiwi pieces + honey.</p>
+                    </div>
+                </div>
+                <div class="menu-item-row">
+                    <div class="item-arabic">
+                        <h3>طبق الموناليزا</h3>
+                        <p>مكس ايس كريم (مانجا - كيوي - موز)، جرانولا، شوفان + موز قطع + كيوي قطع ) + عسل.</p>
+                    </div>
+                    <div class="item-price">65 ج.م</div>
+                    <div class="item-english">
+                        <h3>Mona Lisa Platter</h3>
+                        <p>Ice cream mix (mango - kiwi - banana), granola, oats + banana pieces + kiwi pieces + honey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="breakfast" class="menu-section">
+            <h2>الفطار</h2>
+            <div class="coming-soon-message">
+                <i class="fas fa-hourglass-start"></i>
+                <p>سيضاف قريباً... ترقبوا أطباق الفطار الشهية!</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>نتمنى لكم تجربة طعام ممتعة في جراند شاهين.</p>
+            <p>&copy; 2025 جميع الحقوق محفوظة.</p>
+            <p>للتواصل: 01xxxxxxxxx</p>
+        </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // وظيفة التبديل بين أقسام المنيو
+            $('.category-tab').on('click', function() {
+                var targetCategory = $(this).data('category');
+                
+                $('.category-tab').removeClass('active');
+                $(this).addClass('active');
+                
+                // إخفاء كل أقسام المنيو وتجهيزها للظهور بالتأثير
+                $('.menu-section').removeClass('active').hide();
+
+                // إظهار القسم المستهدف بتأثير
+                $('#' + targetCategory).addClass('active').show();
+                
+                // الانتقال لأعلى الصفحة قليلاً لتجنب اختفاء المحتوى في بعض الحالات
+                $('html, body').animate({
+                    scrollTop: $(".categories-nav").offset().top - 20 
+                }, 500);
+            });
+
+            // تفعيل التاب الأول افتراضيًا عند تحميل الصفحة
+            $('.category-tab[data-category="hot-drinks"]').click();
+        });
+    </script>
+</body>
+</html>
